@@ -5,13 +5,19 @@ pipeline {
 
         stage('Build Backend Image') {
             steps {
-                sh 'docker build -t backend-service:v1 docker/backend'
+                sh '''
+                cd docker/backend
+                docker build -t backend-service:v1 .
+                '''
             }
         }
 
         stage('Build Frontend Image') {
             steps {
-                sh 'docker build -t frontend-service:v1 docker/frontend'
+                sh '''
+                cd docker/frontend
+                docker build -t frontend-service:v1 .
+                '''
             }
         }
 
