@@ -3,21 +3,26 @@ pipeline {
 
     stages {
 
+        stage('Debug Workspace') {
+            steps {
+                sh 'pwd'
+                sh 'ls -R'
+            }
+        }
+
         stage('Build Backend Image') {
             steps {
-                sh '''
-                cd docker/backend
-                docker build -t backend-service:v1 .
-                '''
+                dir('docker/backend') {
+                    sh 'docker build -t backend-service:v1 .'
+                }
             }
         }
 
         stage('Build Frontend Image') {
             steps {
-                sh '''
-                cd docker/frontend
-                docker build -t frontend-service:v1 .
-                '''
+                dir('docker/frontend') {
+                    sh 'docker build -t frontend-service:v1 .'
+                }
             }
         }
 
