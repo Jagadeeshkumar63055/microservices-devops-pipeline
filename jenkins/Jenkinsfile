@@ -1,0 +1,33 @@
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Build Backend Image') {
+            steps {
+                sh 'docker build -t backend-service:v1 docker/backend'
+            }
+        }
+
+        stage('Build Frontend Image') {
+            steps {
+                sh 'docker build -t frontend-service:v1 docker/frontend'
+            }
+        }
+
+        stage('Deploy Backend') {
+            steps {
+                sh 'kubectl apply -f k8s/backend-deployment.yaml'
+                sh 'kubectl apply -f k8s/backend-service.yaml'
+            }
+        }
+
+        stage('Deploy Frontend') {
+            steps {
+                sh 'kubectl apply -f k8s/frontend-deployment.yaml'
+                sh 'kubectl apply -f k8s/frontend-service.yaml'
+            }
+        }
+
+    }
+}
